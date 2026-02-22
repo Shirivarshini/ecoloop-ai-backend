@@ -30,9 +30,7 @@ def init_db():
 init_db()
 
 
-# -----------------------------------
-# STEP 9 – Waste Classification
-# -----------------------------------
+
 def classify_waste(waste_type):
     recyclable = ["plastic", "metal", "paper"]
     hazardous = ["chemical", "battery"]
@@ -45,18 +43,14 @@ def classify_waste(waste_type):
         return "General Waste"
 
 
-# -----------------------------------
-# STEP 8 – Hazard Spike Detection
-# -----------------------------------
+
 def check_spike(quantity):
     if quantity > 100:
         return "⚠ Hazardous Spike Detected"
     return "Normal"
 
 
-# -----------------------------------
-# STEP 7 – Smart Recommendation Engine
-# -----------------------------------
+
 def recommend(category):
     if category == "Recyclable":
         return "Send to recycling partner"
@@ -107,7 +101,7 @@ def upload_waste():
         cursor.execute("""
             INSERT INTO waste_records 
             ( waste_type, quantity, date, category, spike_status, recommendation)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            VALUES ( ?, ?, ?, ?, ?, ?)
         """, ( waste_type, quantity, date, category, spike_status, recommendation))
 
         conn.commit()
@@ -124,9 +118,7 @@ def upload_waste():
         return jsonify({"error": str(e)}), 500
 
 
-# -----------------------------------
-# STEP 10 – Dashboard Data API
-# -----------------------------------
+
 @app.route("/dashboard-data", methods=["GET"])
 def dashboard_data():
     try:
