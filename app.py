@@ -14,7 +14,6 @@ def init_db():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS waste_records (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            department TEXT,
             waste_type TEXT,
             quantity REAL,
             date TEXT,
@@ -85,13 +84,13 @@ def upload_waste():
 
     data = request.get_json()
 
-    required_fields = ["department", "waste_type", "quantity", "date"]
+    required_fields = [ "waste_type", "quantity", "date"]
 
     for field in required_fields:
         if field not in data:
             return jsonify({"error": f"Missing field: {field}"}), 400
 
-    department = data["department"]
+
     waste_type = data["waste_type"]
     quantity = data["quantity"]
     date = data["date"]
@@ -107,9 +106,9 @@ def upload_waste():
 
         cursor.execute("""
             INSERT INTO waste_records 
-            (department, waste_type, quantity, date, category, spike_status, recommendation)
+            ( waste_type, quantity, date, category, spike_status, recommendation)
             VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (department, waste_type, quantity, date, category, spike_status, recommendation))
+        """, ( waste_type, quantity, date, category, spike_status, recommendation))
 
         conn.commit()
         conn.close()
